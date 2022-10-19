@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <style>
+    table,
+    th,
+    td {
+      border: 1px solid white;
+      border-collapse: collapse;
+    }
+
+    th {
+      background-color: #416b6b;
+    }
+
+    td {
+      background-color: #96D4D4;
+    }
+
+    td {
+      padding: 10px 15px;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    @media only screen and (max-width:1024px) {
+
+      table,
+      thead,
+      tbody,
+      th,
+      td,
+      tr {
+        display: block;
+      }
+
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+
+      td {
+        border: none;
+        position: relative;
+      }
+    }
+    #block2{
+      margin-left: 80px;
+    }
+    #download{
+      position: absolute;
+      right: 5%;
+      bottom: 5%;
+    }
+    .con{
+      padding: 10px 0;
+      
+      font-size: 20px;
+    }
+    
+    form{
+      font-size: 18px;
+    }
+  </style>
+  
+</head>
+<body>
+  <button onclick="exportfile()" id="download">export to excel</button>
+ <div class="container d-flex">
+  <div id="block1">
+    <div class="con">
+      <a href="/adduser">
+        <span>New User</span>
+      </a>
+    </div>
+    <form action="/" method="post">
+      <table class="user" id="table1">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile No.</th>
+            <th>Id</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach(function(elem){ %>
+            <tr>
+            <td><%=elem.name%></td>
+            <td><%=elem.email%></td>
+            <td><%=elem.mobile%></td>
+            <td><%=elem.id%></td>
+            </tr>
+         <% }) %>
+        </tbody>
+      </table>
+    </form>
+  </div>
+ <div id="block2"> <div class="con">
+  <a href="/task">
+    <span>New Task</span>
+  </a>
+</div>
+<form action="/" method="post">
+  <table class="task" id="table2">
+    <thead>
+      <tr>
+        <th>User</th>
+        <th>Task Name</th>
+        <th>Task Type</th>
+      </tr>
+    </thead>
+    <tbody>
+     <% data1.forEach(function(elem){ %>
+        <tr>
+          <td><%=elem.user%></td>
+          <td><%=elem.taskname%></td>
+          <td><%=elem.tasktype%></td>
+        </tr>
+     <% }) %>
+     
+    </tbody>
+  </table>
+</form></div>
+ </div>
+  
+ 
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js" integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+      function exportfile(){
+      let d1=document.getElementById("table1");
+      console.log(d1.textContent)
+      var fp1 = XLSX.utils.table_to_book(d1,{sheet:'sheet1'});
+      XLSX.write(fp1,{
+        bookType:'xlsx',
+        type:'base64'
+      });
+      XLSX.writeFile(fp1,'user.xlsx')
+
+      let d2=document.getElementById("table2");
+      console.log(d2.textContent)
+      var fp2 = XLSX.utils.table_to_book(d2,{sheet:'sheet2'});
+      XLSX.write(fp2,{
+        bookType:'xlsx',
+        type:'base64'
+      });
+      XLSX.writeFile(fp2,'task.xlsx')
+      }
+    
+    
+  </script>
+</body>
+
+</html>
